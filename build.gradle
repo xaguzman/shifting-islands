@@ -20,7 +20,7 @@ allprojects {
         appName = 'ShiftingIslands'
         gdxVersion = '1.1.0'
         roboVMVersion = '0.0.13'
-        pathfindingVersion = '0.2.2'
+        pathfindingVersion = '0.2.3'
     }
 
     repositories {

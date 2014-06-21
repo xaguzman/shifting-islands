@@ -43,4 +43,21 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.setPreserveWhitespace(true)
     printer.print(classpath)
   }
+  
+  task packImages(dependsOn: classes, type: JavaExec){
+  	main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
+   	classpath = sourceSets.main.runtimeClasspath
+   	args = ['../images/unpackedimg', '../android/assets/data', 'images']
+  }
+  
+  task packUI(type: JavaExec){
+  	main = 'com.badlogic.gdx.tools.texturepacker.TexturePacker'
+   	classpath = sourceSets.main.runtimeClasspath
+   	args = ['../images/ui-unpacked', '../android/assets/data', 'ui']
+  }
+  
+  task packTextures ( dependsOn: [packImages, packUI] ){
+  	print ('Texture Atlases generated')
+  }
+  
 }

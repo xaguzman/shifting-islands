@@ -139,7 +139,7 @@ public class MapChunk extends Group {
 		this.tileHeight = map.getProperties().get("tileheight", Integer.class);
 		
 		layers = new MapLayers();
-		GridCell[][] cells = new GridCell[cheight][cwidth];
+		GridCell[][] cells = new GridCell[cwidth][cheight];
 		GridCell node = null;
 		
 		for(MapLayer l : map.getLayers()){
@@ -147,15 +147,14 @@ public class MapChunk extends Group {
 				TiledMapTileLayer layer = (TiledMapTileLayer) l;
 				TiledMapTileLayer slicedLayer = new TiledMapTileLayer(this.cwidth, this.cheight, tileWidth, tileHeight);
 				copyLayerSettings(layer, slicedLayer);
-				for (int r = 0; r < this.cheight; r++){
-					//cells[r] = new GridCell[]
-					for (int c = 0; c < this.cwidth; c++){
+				for (int c = 0; c < this.cwidth; c++){
+					for (int r = 0; r < this.cheight; r++){
 						Cell cell = layer.getCell(c + col, r + row);
 						slicedLayer.setCell(c, r , cell);
 						
 						if (layer.getName().equalsIgnoreCase("tiles")){
-							node = new GridCell(r, c, false);
-							cells[r][c] = node;
+							node = new GridCell(c, r, false);
+							cells[c][r] = node;
 						}
 						
 						if (cell != null ){
@@ -499,7 +498,7 @@ public class MapChunk extends Group {
 			Pools.get(RepeatAction.class).free(markerAction);
 		}
 		if (isCurrentSpawn){
-			markerAction = forever(sequence ( Actions.moveBy(-15, 0.25f), Actions.moveBy(15, 0.25f) ));
+			markerAction = forever( Actions.sequence ( Actions.moveBy(0, 15, 0.25f), Actions.moveBy(0, -15, 0.25f) ));
 			respawnMarker.addAction(markerAction);
 		}else{
 			markerAction = null;
